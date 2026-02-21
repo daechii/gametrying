@@ -6,6 +6,12 @@ public class Room : MonoBehaviour
     [SerializeField] GameObject BottomDoor;
     [SerializeField] GameObject RightDoor;
     [SerializeField] GameObject LeftDoor;
+
+    [SerializeField] Door topDoorScript;
+    [SerializeField] Door bottomDoorScript;
+    [SerializeField] Door leftDoorScript;
+    [SerializeField] Door rightDoorScript;
+
     public Vector2Int RoomIndex { get; set; }
 
     public void OpenDoor(Vector2Int direction)
@@ -26,5 +32,13 @@ public class Room : MonoBehaviour
         {
             RightDoor.SetActive(true);
         }
+    }
+    public Transform GetExitPoint(Vector2Int dir)
+    {
+        if (dir == Vector2Int.up) return topDoorScript.exitPoint;
+        if (dir == Vector2Int.down) return bottomDoorScript.exitPoint;
+        if (dir == Vector2Int.left) return leftDoorScript.exitPoint;
+        if (dir == Vector2Int.right) return rightDoorScript.exitPoint;
+        return null;
     }
 }

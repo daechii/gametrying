@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.linearVelocity = new Vector2(moveInput.x * speed, moveInput.y * speed);
         transform.position += (Vector3)(moveInput * speed * Time.fixedDeltaTime);
-        Debug.Log($"moveInput: {moveInput}, скорость: {rb.linearVelocity}");
+        //Debug.Log($"moveInput: {moveInput}, скорость: {rb.linearVelocity}");
 
     }
     public void Move(InputAction.CallbackContext context)

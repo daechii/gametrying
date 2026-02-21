@@ -1,14 +1,14 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class RoomManager : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] GameObject RoomPrefab;
-    [SerializeField] GameObject PlayerPrefab; 
+    [SerializeField] GameObject PlayerPrefab;
 
-    [SerializeField] private int MaxRooms = 15;
-    [SerializeField] private int MinRooms = 7;
+    [SerializeField] private int MaxRooms = 7;
+    [SerializeField] private int MinRooms = 3;
 
     int RoomWidth = 20;
     int RoomHeight = 12;
@@ -23,12 +23,14 @@ public class RoomManager : MonoBehaviour
     private bool GenerationComplete = false;
 
     private Vector2Int StartRoomIndex;
+    private Vector2Int currentRoomIndex; 
+    private Room currentRoomScript;
 
     private void Start()
     {
         if (RoomPrefab == null)
         {
-            Debug.LogError("RoomPrefab �� �������� � ����������!");
+            //Debug.LogError("RoomPrefab íå íàçíà÷åí â èíñïåêòîðå!");
             return;
         }
 
@@ -47,7 +49,7 @@ public class RoomManager : MonoBehaviour
             if (RoomQueue.Count == 0)
             {
                 GenerationComplete = true;
-                SpawnPlayer(); 
+                SpawnPlayer();
                 Debug.Log($"Generation complete (Queue empty), {RoomCount} rooms created");
                 return;
             }
@@ -63,9 +65,9 @@ public class RoomManager : MonoBehaviour
         }
         else if (!GenerationComplete)
         {
-            Debug.Log($"Generation complete, {RoomCount} rooms created");
+            //Debug.Log($"Generation complete, {RoomCount} rooms created");
             GenerationComplete = true;
-
+            currentRoomIndex = StartRoomIndex;
             SpawnPlayer();
         }
     }
@@ -74,7 +76,7 @@ public class RoomManager : MonoBehaviour
     {
         if (PlayerPrefab == null)
         {
-            Debug.LogWarning("PlayerPrefab �� ��������! ����� �� ������.");
+            //Debug.LogWarning("PlayerPrefab íå íàçíà÷åí! Èãðîê íå ñîçäàí.");
             return;
         }
 
@@ -83,7 +85,7 @@ public class RoomManager : MonoBehaviour
         GameObject playerInstance = Instantiate(PlayerPrefab, spawnPosition, Quaternion.identity);
         playerInstance.name = "Player";
 
-        Debug.Log($"����� ������ � �������: {StartRoomIndex}, �������: {spawnPosition}");
+        //Debug.Log($"Èãðîê ñîçäàí â êîìíàòå: {StartRoomIndex}, Ïîçèöèÿ: {spawnPosition}");
     }
 
     private void StarRoomGenerationFromRoom(Vector2Int RoomIndex)
@@ -129,7 +131,7 @@ public class RoomManager : MonoBehaviour
         RoomCount++;
 
         var NewRoom = Instantiate(RoomPrefab, GetPositionFromGridIndex(RoomIndex), Quaternion.identity);
-        NewRoom.name = $"Room-{RoomCount}"; 
+        NewRoom.name = $"Room-{RoomCount}";
 
         Room newRoomScript = NewRoom.GetComponent<Room>();
         if (newRoomScript != null)
@@ -175,7 +177,7 @@ public class RoomManager : MonoBehaviour
     }
 
     Room GetRoomScriptAt(Vector2Int Index)
-    {  
+    {
         GameObject RoomObject = RoomObjects.Find(r => {
             Room rComp = r.GetComponent<Room>();
             return rComp != null && rComp.RoomIndex == Index;
@@ -220,7 +222,36 @@ public class RoomManager : MonoBehaviour
                 Gizmos.DrawWireCube(position, new Vector3(RoomWidth, RoomHeight, 1));
             }
         }
+    }
+    public void MovePlayerToRoom(Vector2Int direction)
+    {
+        Vector2Int nextRoomIndex = currentRoomIndex + direction;
 
-      
+        // Ищем скрипт комнаты, в которую переходим
+        Room nextRoom = GetRoomScriptAt(nextRoomIndex);
+
+        if (nextRoom != null)
+        {
+            currentRoomIndex = nextRoomIndex;
+
+            // Находим игрока
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            // Находим дверь в НОВОЙ комнате, которая ведет В ОБРАТНУЮ сторону
+            // Если мы шли ВВЕРХ (0,1), то в новой комнате нам нужна НИЖНЯЯ дверь (0,-1)
+            Vector2Int oppositeDirection = direction * -1;
+
+            // Получаем точку выхода из противоположной двери новой комнаты
+            Transform spawnPoint = nextRoom.GetExitPoint(oppositeDirection);
+
+            if (spawnPoint != null)
+            {
+                player.transform.position = spawnPoint.position;
+
+                // Если у тебя готова камера, тут же говорим ей:
+                // Camera.main.GetComponent<CameraController>().MoveToRoom(nextRoom.transform.position);
+            }
+        }
+        Camera.main.transform.position = new Vector3(nextRoom.transform.position.x, nextRoom.transform.position.y, -10f);
     }
 }

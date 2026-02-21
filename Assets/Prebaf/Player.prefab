@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 4720432807626866150}
   - component: {fileID: 8195397046000417706}
   - component: {fileID: 7761922443728481803}
-  - component: {fileID: 4518685227977853585}
   - component: {fileID: 5590435781608991030}
+  - component: {fileID: 4518685227977853585}
   - component: {fileID: 4938826005407948375}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 2100394047
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 3390433575002291553, guid: b873bc47b4bb9ff42987d29cf44ef21c, type: 3}
@@ -135,8 +135,8 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &7761922443728481803
 BoxCollider2D:
@@ -184,18 +184,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5, y: 0.96875}
   m_EdgeRadius: 0
---- !u!114 &4518685227977853585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1571120285721432317}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11c10a49d03645e43a8860ca3891ac3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimatior
 --- !u!95 &5590435781608991030
 Animator:
   serializedVersion: 7
@@ -218,6 +206,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4518685227977853585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571120285721432317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11c10a49d03645e43a8860ca3891ac3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimatior
 --- !u!114 &4938826005407948375
 MonoBehaviour:
   m_ObjectHideFlags: 0
