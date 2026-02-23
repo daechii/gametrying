@@ -428,7 +428,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1254616825}
-  - component: {fileID: 1254616824}
+  - component: {fileID: 1254616826}
   m_Layer: 0
   m_Name: RoomManager
   m_TagString: Untagged
@@ -436,24 +436,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1254616824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1254616823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30acfab077bd34b46b78cda82b783f74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RoomManager
-  RoomPrefab: {fileID: 5799190079004142864, guid: 0f3c3df41a018324eacf40f83df5eeed, type: 3}
-  PlayerPrefab: {fileID: 1571120285721432317, guid: b9def038f8df47c4d9d526065799b1c5, type: 3}
-  MaxRooms: 15
-  MinRooms: 7
-  GridSizeX: 10
-  GridSizeY: 10
 --- !u!4 &1254616825
 Transform:
   m_ObjectHideFlags: 0
@@ -469,6 +451,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1254616826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254616823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30acfab077bd34b46b78cda82b783f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomManager
+  RoomPrefab: {fileID: 5799190079004142864, guid: 0f3c3df41a018324eacf40f83df5eeed, type: 3}
+  PlayerPrefab: {fileID: 1571120285721432317, guid: b9def038f8df47c4d9d526065799b1c5, type: 3}
+  MaxRooms: 7
+  MinRooms: 3
+  GridSizeX: 10
+  GridSizeY: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
