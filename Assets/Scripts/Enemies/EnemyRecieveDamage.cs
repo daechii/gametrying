@@ -1,12 +1,17 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyRecieveDamage : MonoBehaviour
 {
     public float Health;
-    public float MaxHealth;
+    public float MaxHealth = 100;
+
+    public GameObject HealthBar;
+    public Slider HealthBarSlider;
+
     void Start()
     {
-        Health -= MaxHealth;
+        Health = MaxHealth;
     }
 
     private void CheckOverheal()
@@ -15,6 +20,8 @@ public class EnemyRecieveDamage : MonoBehaviour
         {
             Health = MaxHealth;
         }
+        HealthBarSlider.value = CalculateHealth();
+
     }
 
     private void CheckDeath()
@@ -27,7 +34,22 @@ public class EnemyRecieveDamage : MonoBehaviour
 
     public void DealDamage(float damage)
     {
+        HealthBar.SetActive(true);
         Health -= damage;
         CheckDeath();
+        HealthBarSlider.value = CalculateHealth();
+
+    }
+
+
+    public void HealCharacter(float heal)
+    {
+        Health += heal;
+        CheckOverheal();
+    }
+
+    private float CalculateHealth()
+    {
+        return (Health / MaxHealth);
     }
 }
