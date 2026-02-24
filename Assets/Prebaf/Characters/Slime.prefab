@@ -463,8 +463,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyShooting
   Projectile: {fileID: 5514379634128227222, guid: a643b882c8484dc4ea612f4b72795b0d, type: 3}
   _playerTransform: {fileID: 5636937708725801174, guid: b9def038f8df47c4d9d526065799b1c5, type: 3}
-  MinDamage: 100
-  MaxDamage: 100
+  MinDamage: 10
+  MaxDamage: 10
   ProjectileForce: 10
   Cooldown: 2
 --- !u!212 &5674910927750941907

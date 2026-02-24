@@ -226,31 +226,20 @@ public class RoomManager : MonoBehaviour
     public void MovePlayerToRoom(Vector2Int direction)
     {
         Vector2Int nextRoomIndex = currentRoomIndex + direction;
-
-        // Ищем скрипт комнаты, в которую переходим
         Room nextRoom = GetRoomScriptAt(nextRoomIndex);
 
         if (nextRoom != null)
         {
             currentRoomIndex = nextRoomIndex;
-
-            // Находим игрока
             GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-            // Находим дверь в НОВОЙ комнате, которая ведет В ОБРАТНУЮ сторону
-            // Если мы шли ВВЕРХ (0,1), то в новой комнате нам нужна НИЖНЯЯ дверь (0,-1)
             Vector2Int oppositeDirection = direction * -1;
-
-            // Получаем точку выхода из противоположной двери новой комнаты
             Transform spawnPoint = nextRoom.GetExitPoint(oppositeDirection);
 
             if (spawnPoint != null)
             {
                 player.transform.position = spawnPoint.position;
-
-                // Если у тебя готова камера, тут же говорим ей:
-                // Camera.main.GetComponent<CameraController>().MoveToRoom(nextRoom.transform.position);
             }
+            nextRoom.OnPlayerEnter();
         }
         Camera.main.transform.position = new Vector3(nextRoom.transform.position.x, nextRoom.transform.position.y, -10f);
     }

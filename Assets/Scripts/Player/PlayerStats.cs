@@ -1,10 +1,15 @@
+using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats _playerStats;
 
     public GameObject player;
+    public Text HealthStat;
+    public Slider HealthBar;
 
     public float Health;
     public float MaxHealth = 100;
@@ -25,6 +30,7 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         Health = MaxHealth;
+        SetHealUI();
     }
 
     private void CheckOverheal()
@@ -39,6 +45,13 @@ public class PlayerStats : MonoBehaviour
     {
         Health += heal;
         CheckOverheal();
+        SetHealUI();
+    }
+
+    private void SetHealUI() 
+    {
+        HealthBar.value = CalculcateHealthPercentage();
+        HealthStat.text = Mathf.Ceil(Health).ToString() + "/" + Mathf.Ceil(MaxHealth).ToString();
     }
 
     private void CheckDeath()
@@ -53,5 +66,11 @@ public class PlayerStats : MonoBehaviour
     {
         Health -= damage;
         CheckDeath();
+        SetHealUI();
+    }
+
+    float CalculcateHealthPercentage()
+    {
+        return Health / MaxHealth;
     }
 }

@@ -2,6 +2,9 @@
 
 public class Room : MonoBehaviour
 {
+
+    [Header("Door direction")]   
+    
     [SerializeField] GameObject TopDoor;
     [SerializeField] GameObject BottomDoor;
     [SerializeField] GameObject RightDoor;
@@ -40,5 +43,13 @@ public class Room : MonoBehaviour
         if (dir == Vector2Int.left) return leftDoorScript.exitPoint;
         if (dir == Vector2Int.right) return rightDoorScript.exitPoint;
         return null;
+    }
+
+    public void OnPlayerEnter()
+    {
+        if (TryGetComponent<EnemySpawnPoint>(out EnemySpawnPoint battleManager))
+        {
+            battleManager.StartBattle();
+        }
     }
 }
