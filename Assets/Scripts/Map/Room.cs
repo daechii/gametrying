@@ -49,7 +49,10 @@ public class Room : MonoBehaviour
     {
         if (TryGetComponent<EnemySpawnPoint>(out EnemySpawnPoint battleManager))
         {
+            Debug.Log("Активно");
             battleManager.StartBattle();
         }
+        Debug.Log("Поломоно");
+
     }
 }

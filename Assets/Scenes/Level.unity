@@ -1126,7 +1126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30acfab077bd34b46b78cda82b783f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomManager
-  RoomPrefab: {fileID: 5799190079004142864, guid: 0f3c3df41a018324eacf40f83df5eeed, type: 3}
+  RoomPrefab: {fileID: 5799190079004142864, guid: 5b612e8c875fdc44bb49e4fa3bd8cf85, type: 3}
   PlayerPrefab: {fileID: 1571120285721432317, guid: b9def038f8df47c4d9d526065799b1c5, type: 3}
   MaxRooms: 7
   MinRooms: 3

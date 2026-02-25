@@ -26,7 +26,11 @@ public class EnemySpawnPoint : MonoBehaviour
             spawnedEnemies.Add(enemy);
         }
 
-        if (spawnedEnemies.Count > 0) ToggleDoors(true);
+        if (spawnedEnemies.Count > 0)
+        {
+            ToggleDoors(true);
+            Debug.Log("Попытка изменить состояние дверей: " + true);
+        }
         else isCleared = true;
     }
 
@@ -38,6 +42,7 @@ public class EnemySpawnPoint : MonoBehaviour
 
         if (spawnedEnemies.Count == 0)
         {
+
             isCleared = true;
             ToggleDoors(false);
             Debug.Log("Комната зачищена!");
@@ -46,6 +51,12 @@ public class EnemySpawnPoint : MonoBehaviour
 
     private void ToggleDoors(bool lockState)
     {
-        foreach (var door in lockVisuals) door.SetActive(lockState);
+        Debug.Log("Попытка изменить состояние дверей: " + lockState);
+        foreach (var door in lockVisuals) 
+        {
+            if (door != null) door.SetActive(lockState);
+            else Debug.LogError("В массиве lockVisuals есть пустая ссылка!");
+        } 
+            
     }
 }
