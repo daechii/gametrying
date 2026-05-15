@@ -248,7 +248,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 1.9, y: 0.4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -360,9 +360,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3736568563295454156}
   - component: {fileID: -8619435413618307701}
+  - component: {fileID: -7182736455001122334}
   - component: {fileID: 3466554686843413337}
   - component: {fileID: -7264006055771119874}
   - component: {fileID: 5674910927750941907}
+  - component: {fileID: -7182736455001122335}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
@@ -433,6 +435,33 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &-7182736455001122334
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4711280651055255647}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!114 &3466554686843413337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,7 +485,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4711280651055255647}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e1b3239656aa64449d79c0e31436fbd, type: 3}
   m_Name: 
@@ -526,6 +555,24 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-7182736455001122335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4711280651055255647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8c4a2f1d9e54321a7c8b9d0e1f2a3b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyChasePlayer
+  moveSpeed: 2.2
+  stopDistance: 0.28
+  reacquirePlayerInterval: 0.35
+  dealContactDamage: 1
+  contactDamage: 8
+  contactDamageCooldown: 0.75
 --- !u!1 &6657436816128284392
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,6 +585,7 @@ GameObject:
   - component: {fileID: 8494199998441485798}
   - component: {fileID: 4973131366775330932}
   - component: {fileID: 7480198580943183008}
+  - component: {fileID: 8839223388243484039}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -628,6 +676,28 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!95 &8839223388243484039
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6657436816128284392}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 65d929ad5504e7e429b779d8e12bddba, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8860542152323255189
 GameObject:
   m_ObjectHideFlags: 0

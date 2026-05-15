@@ -37,6 +37,7 @@ public class RoomManager : MonoBehaviour
         RoomGrid = new int[GridSizeX, GridSizeY];
         RoomQueue = new Queue<Vector2Int>();
 
+
         StartRoomIndex = new Vector2Int(GridSizeX / 2, GridSizeY / 2);
 
         StarRoomGenerationFromRoom(StartRoomIndex);
@@ -48,9 +49,13 @@ public class RoomManager : MonoBehaviour
         {
             if (RoomQueue.Count == 0)
             {
-                GenerationComplete = true;
-                SpawnPlayer();
-                Debug.Log($"Generation complete (Queue empty), {RoomCount} rooms created");
+                if (RoomCount < MinRooms)
+                {
+                    RegrowFromExistingRooms();
+                    return;
+                }
+
+                FinishGeneration($"Generation complete (Queue empty), {RoomCount} rooms created");
                 return;
             }
 
@@ -65,11 +70,17 @@ public class RoomManager : MonoBehaviour
         }
         else if (!GenerationComplete)
         {
-            //Debug.Log($"Generation complete, {RoomCount} rooms created");
-            GenerationComplete = true;
-            currentRoomIndex = StartRoomIndex;
-            SpawnPlayer();
+            FinishGeneration($"Generation complete, {RoomCount} rooms created");
         }
+    }
+
+    private void FinishGeneration(string logMessage)
+    {
+        GenerationComplete = true;
+        currentRoomIndex = StartRoomIndex;
+        SyncAllRoomDoorsToGrid();
+        SpawnPlayer();
+        Debug.Log(logMessage);
     }
 
     private void SpawnPlayer()
@@ -84,6 +95,9 @@ public class RoomManager : MonoBehaviour
 
         GameObject playerInstance = Instantiate(PlayerPrefab, spawnPosition, Quaternion.identity);
         playerInstance.name = "Player";
+
+        if (PlayerStats._playerStats != null)
+            PlayerStats._playerStats.BindPlayer(playerInstance);
 
         //Debug.Log($"Èãðîê ñîçäàí â êîìíàòå: {StartRoomIndex}, Ïîçèöèÿ: {spawnPosition}");
     }
@@ -101,9 +115,22 @@ public class RoomManager : MonoBehaviour
 
         Room roomScript = InitialRoom.GetComponent<Room>();
         if (roomScript != null)
+        {
             roomScript.RoomIndex = RoomIndex;
+            if (RoomIndex == StartRoomIndex)
+                roomScript.MarkAsStartRoom();
+        }
+
+        if (RoomIndex == StartRoomIndex)
+            DisableCombatInRoom(InitialRoom);
 
         RoomObjects.Add(InitialRoom);
+    }
+
+    static void DisableCombatInRoom(GameObject roomObject)
+    {
+        if (roomObject.TryGetComponent(out EnemySpawnPoint spawnPoint))
+            spawnPoint.enabled = false;
     }
 
     private bool TryGenerateRoom(Vector2Int RoomIndex)
@@ -120,7 +147,7 @@ public class RoomManager : MonoBehaviour
         if (RoomGrid[x, y] != 0)
             return false;
 
-        if (Random.value < 0.5f && RoomIndex != Vector2Int.zero)
+        if (Random.value < 0.5f && RoomIndex != StartRoomIndex)
             return false;
 
         if (CountAdjecentRooms(RoomIndex) > 1)
@@ -139,41 +166,75 @@ public class RoomManager : MonoBehaviour
 
         RoomObjects.Add(NewRoom);
 
-        OpenDoor(NewRoom, x, y);
-
         return true;
     }
 
-    void OpenDoor(GameObject Room, int x, int y)
+    private void RegrowFromExistingRooms()
     {
-        Room NewRoomScript = Room.GetComponent<Room>();
-        if (NewRoomScript == null) return;
+        foreach (GameObject roomObject in RoomObjects)
+        {
+            Room roomScript = roomObject.GetComponent<Room>();
+            if (roomScript != null)
+            {
+                RoomQueue.Enqueue(roomScript.RoomIndex);
+            }
+        }
+    }
 
-        Room LeftScript = GetRoomScriptAt(new Vector2Int(x - 1, y));
-        Room RightScript = GetRoomScriptAt(new Vector2Int(x + 1, y));
-        Room TopScript = GetRoomScriptAt(new Vector2Int(x, y + 1));
-        Room BottomScript = GetRoomScriptAt(new Vector2Int(x, y - 1));
+    private void SyncAllRoomDoorsToGrid()
+    {
+        foreach (GameObject go in RoomObjects)
+        {
+            Room room = go.GetComponent<Room>();
+            if (room == null)
+                continue;
 
-        if (x > 0 && RoomGrid[x - 1, y] != 0 && LeftScript != null)
-        {
-            NewRoomScript.OpenDoor(Vector2Int.left);
-            LeftScript.OpenDoor(Vector2Int.right);
+            Vector2Int idx = room.RoomIndex;
+            int x = idx.x;
+            int y = idx.y;
+
+            bool openLeft = x > 0 && RoomGrid[x - 1, y] != 0;
+            bool openRight = x < GridSizeX - 1 && RoomGrid[x + 1, y] != 0;
+            bool openDown = y > 0 && RoomGrid[x, y - 1] != 0;
+            bool openUp = y < GridSizeY - 1 && RoomGrid[x, y + 1] != 0;
+
+            room.SetDoorsFromConnections(openLeft, openRight, openDown, openUp);
         }
-        if (x < GridSizeX - 1 && RoomGrid[x + 1, y] != 0 && RightScript != null)
-        {
-            NewRoomScript.OpenDoor(Vector2Int.right);
-            RightScript.OpenDoor(Vector2Int.left);
-        }
-        if (y > 0 && RoomGrid[x, y - 1] != 0 && BottomScript != null)
-        {
-            NewRoomScript.OpenDoor(Vector2Int.down);
-            BottomScript.OpenDoor(Vector2Int.up);
-        }
-        if (y < GridSizeY - 1 && RoomGrid[x, y + 1] != 0 && TopScript != null)
-        {
-            NewRoomScript.OpenDoor(Vector2Int.up);
-            TopScript.OpenDoor(Vector2Int.down);
-        }
+    }
+
+    private bool HasRoomAt(Vector2Int index)
+    {
+        if (index.x < 0 || index.x >= GridSizeX || index.y < 0 || index.y >= GridSizeY)
+            return false;
+        return RoomGrid[index.x, index.y] != 0;
+    }
+
+    private bool IsRoomBlockingExits(Vector2Int roomIndex)
+    {
+        Room room = GetRoomScriptAt(roomIndex);
+        if (room == null)
+            return false;
+        if (room.TryGetComponent(out EnemySpawnPoint battle))
+            return battle.AreExitsBlocked;
+        return false;
+    }
+
+    /// <summary>Вызывается с двери: проверки как в Isaac (текущая комната, не в бою, есть сосед).</summary>
+    public bool TryRequestRoomTransition(Room fromRoom, Vector2Int direction)
+    {
+        if (fromRoom == null)
+            return false;
+        if (fromRoom.RoomIndex != currentRoomIndex)
+            return false;
+        if (IsRoomBlockingExits(currentRoomIndex))
+            return false;
+
+        Vector2Int nextIndex = currentRoomIndex + direction;
+        if (!HasRoomAt(nextIndex))
+            return false;
+
+        MovePlayerToRoom(direction);
+        return true;
     }
 
     Room GetRoomScriptAt(Vector2Int Index)
@@ -211,8 +272,6 @@ public class RoomManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Color gizmoColor = new Color(0, 1, 1, 0.5f);
-        Gizmos.color = gizmoColor;
 
         for (int x = 0; x < GridSizeX; x++)
         {
@@ -223,24 +282,31 @@ public class RoomManager : MonoBehaviour
             }
         }
     }
-    public void MovePlayerToRoom(Vector2Int direction)
+    private void MovePlayerToRoom(Vector2Int direction)
     {
         Vector2Int nextRoomIndex = currentRoomIndex + direction;
         Room nextRoom = GetRoomScriptAt(nextRoomIndex);
 
-        if (nextRoom != null)
-        {
-            currentRoomIndex = nextRoomIndex;
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            Vector2Int oppositeDirection = direction * -1;
-            Transform spawnPoint = nextRoom.GetExitPoint(oppositeDirection);
+        if (nextRoom == null)
+            return;
 
-            if (spawnPoint != null)
-            {
-                player.transform.position = spawnPoint.position;
-            }
-            nextRoom.OnPlayerEnter();
+        currentRoomIndex = nextRoomIndex;
+        currentRoomScript = nextRoom;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Vector2Int oppositeDirection = direction * -1;
+        Transform spawnPoint = nextRoom.GetExitPoint(oppositeDirection);
+
+        if (spawnPoint != null && player != null)
+        {
+            player.transform.position = spawnPoint.position;
         }
-        Camera.main.transform.position = new Vector3(nextRoom.transform.position.x, nextRoom.transform.position.y, -10f);
+
+        nextRoom.OnPlayerEnter();
+
+        Camera mainCamera = Camera.main;
+        if (mainCamera != null)
+        {
+            mainCamera.transform.position = new Vector3(nextRoom.transform.position.x, nextRoom.transform.position.y, -10f);
+        }
     }
 }

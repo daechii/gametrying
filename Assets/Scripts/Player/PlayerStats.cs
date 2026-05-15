@@ -8,11 +8,21 @@ public class PlayerStats : MonoBehaviour
     public static PlayerStats _playerStats;
 
     public GameObject player;
-    public Text HealthStat;
     public Slider HealthBar;
 
     public float Health;
     public float MaxHealth = 100;
+
+    bool _dead;
+
+    public void BindPlayer(GameObject instance)
+    {
+        player = instance;
+        _dead = false;
+        Health = MaxHealth;
+        if (HealthBar != null)
+            SetHealUI();
+    }
 
     private void Awake()
     {
@@ -43,6 +53,8 @@ public class PlayerStats : MonoBehaviour
 
     public void HealCharacter(float heal)
     {
+        if (_dead)
+            return;
         Health += heal;
         CheckOverheal();
         SetHealUI();
@@ -50,23 +62,39 @@ public class PlayerStats : MonoBehaviour
 
     private void SetHealUI() 
     {
+        if (HealthBar == null)
+            return;
         HealthBar.value = CalculcateHealthPercentage();
-        HealthStat.text = Mathf.Ceil(Health).ToString() + "/" + Mathf.Ceil(MaxHealth).ToString();
     }
 
     private void CheckDeath()
     {
-        if (Health <= 0)
+        if (_dead || Health > 0)
+            return;
+
+        _dead = true;
+
+        // Destroy только объекта в сцене. Ссылка на префаб из Project даёт ошибку "Destroying assets is not permitted".
+        GameObject target = player;
+        if (target == null || !target.scene.IsValid())
         {
-            Destroy(this.player);
+            GameObject found = GameObject.FindGameObjectWithTag("Player");
+            if (found != null)
+                target = found;
         }
+
+        if (target != null && target.scene.IsValid())
+            Destroy(target);
     }
 
     public void DealDamage(float damage)
     {
+        if (_dead)
+            return;
         Health -= damage;
         CheckDeath();
-        SetHealUI();
+        if (!_dead)
+            SetHealUI();
     }
 
     float CalculcateHealthPercentage()

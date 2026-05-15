@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class User 
 {
-    [PrimaryKey]
+    [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
     public string Name { get; set; } 
 }

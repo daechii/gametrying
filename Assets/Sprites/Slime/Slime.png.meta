@@ -32,6 +32,18 @@ TextureImporter:
   - first:
       213: 2083464259699928970
     second: Slime_9
+  - first:
+      213: 8838806020795055057
+    second: Slime_10
+  - first:
+      213: -3032925496964778609
+    second: Slime_11
+  - first:
+      213: -1882073603415319637
+    second: Slime_12
+  - first:
+      213: 1599567777623568899
+    second: Slime_13
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -78,7 +90,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -101,7 +113,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -144,9 +156,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 96
-        width: 32
-        height: 32
+        y: 196
+        width: 62
+        height: 38
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,20 +177,20 @@ TextureImporter:
       name: Slime_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 96
-        width: 32
-        height: 32
+        x: 63
+        y: 196
+        width: 61
+        height: 38
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: e743a5bf974ee1945837db24fc92c69f
-      internalID: -837708463
+      spriteID: 3169df707c3d3be30800000000000000
+      internalID: 4518187702968751635
       vertices: []
       indices: 
       edges: []
@@ -187,20 +199,20 @@ TextureImporter:
       name: Slime_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 96
-        width: 32
-        height: 32
+        x: 126
+        y: 196
+        width: 63
+        height: 38
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: bee237179cce297428d4d0f1d9b59e2b
-      internalID: 1436345441
+      spriteID: 75eaeb3501dc47860800000000000000
+      internalID: 7526866347251117655
       vertices: []
       indices: 
       edges: []
@@ -209,20 +221,20 @@ TextureImporter:
       name: Slime_3
       rect:
         serializedVersion: 2
-        x: 96
-        y: 96
-        width: 32
-        height: 32
+        x: 192
+        y: 197
+        width: 63
+        height: 37
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 284d0a32a508330408af9e67046362bd
-      internalID: 165469440
+      spriteID: 51e2583bdb88a5200800000000000000
+      internalID: 169598284321861141
       vertices: []
       indices: 
       edges: []
@@ -231,20 +243,20 @@ TextureImporter:
       name: Slime_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
-        width: 32
-        height: 32
+        x: 2
+        y: 133
+        width: 57
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 6a385723975c48f45a41babe639d39c6
-      internalID: 402896000
+      spriteID: 1a1b3d0ba40fcc8f0800000000000000
+      internalID: -518775653469539935
       vertices: []
       indices: 
       edges: []
@@ -253,20 +265,20 @@ TextureImporter:
       name: Slime_5
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
-        width: 32
-        height: 32
+        x: 66
+        y: 133
+        width: 57
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 3c06aa64328706444b0bfbcda63e2dd1
-      internalID: -1639155798
+      spriteID: 01e73e0d3b5b231f0800000000000000
+      internalID: -1066590377825042928
       vertices: []
       indices: 
       edges: []
@@ -275,20 +287,20 @@ TextureImporter:
       name: Slime_6
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
-        width: 32
-        height: 32
+        x: 130
+        y: 133
+        width: 53
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 2fb2cd8d7a284434eb9109c17fccb87e
-      internalID: -924668996
+      spriteID: 37b0b503dd8880940800000000000000
+      internalID: 5262606648162847603
       vertices: []
       indices: 
       edges: []
@@ -297,20 +309,20 @@ TextureImporter:
       name: Slime_7
       rect:
         serializedVersion: 2
-        x: 96
-        y: 64
-        width: 32
-        height: 32
+        x: 198
+        y: 133
+        width: 53
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 2df998e37df4ea245828c7546408b40a
-      internalID: -1454856982
+      spriteID: 61a582449054d21d0800000000000000
+      internalID: -3373964639730116074
       vertices: []
       indices: 
       edges: []
@@ -319,20 +331,20 @@ TextureImporter:
       name: Slime_8
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
-        width: 32
-        height: 32
+        x: 2
+        y: 69
+        width: 57
+        height: 53
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 5e336033eeacc86449b3a42b950c25f7
-      internalID: -853758862
+      spriteID: b4d7a20abf6af26f0800000000000000
+      internalID: -707163016819737269
       vertices: []
       indices: 
       edges: []
@@ -341,20 +353,20 @@ TextureImporter:
       name: Slime_9
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
+        x: 66
+        y: 69
+        width: 57
+        height: 53
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 6b4003e68c172ba4eb3662cecd21e44d
-      internalID: 873853468
+      spriteID: a8fe2ad94b3f9ec10800000000000000
+      internalID: 2083464259699928970
       vertices: []
       indices: 
       edges: []
@@ -363,20 +375,20 @@ TextureImporter:
       name: Slime_10
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
+        x: 130
+        y: 69
+        width: 57
+        height: 53
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: f37c0e3e65dfbb24d93cf5f3b7b23e70
-      internalID: -450817545
+      spriteID: 1dbb214fe3fb9aa70800000000000000
+      internalID: 8838806020795055057
       vertices: []
       indices: 
       edges: []
@@ -385,20 +397,20 @@ TextureImporter:
       name: Slime_11
       rect:
         serializedVersion: 2
-        x: 96
-        y: 32
-        width: 32
-        height: 32
+        x: 194
+        y: 69
+        width: 57
+        height: 53
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: fa6fa4c7c7fb93d4db21836454463c59
-      internalID: 1636102547
+      spriteID: f8570336452e8e5d0800000000000000
+      internalID: -3032925496964778609
       vertices: []
       indices: 
       edges: []
@@ -408,19 +420,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 32
-        height: 32
+        y: 5
+        width: 60
+        height: 33
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 8501c6ea79fc21e4c87b687b29abd14d
-      internalID: 605868145
+      spriteID: bab5a43870881e5e0800000000000000
+      internalID: -1882073603415319637
       vertices: []
       indices: 
       edges: []
@@ -429,20 +441,20 @@ TextureImporter:
       name: Slime_13
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
+        x: 65
+        y: 5
+        width: 60
+        height: 33
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: fcb798d09bb0de544a524bef5f10733e
-      internalID: -176042965
+      spriteID: 302f96b3b6ec23610800000000000000
+      internalID: 1599567777623568899
       vertices: []
       indices: 
       edges: []
@@ -451,10 +463,10 @@ TextureImporter:
       name: Slime_14
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 32
+        x: 129
+        y: 5
+        width: 60
+        height: 33
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -463,8 +475,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f06561b0c4ad74c44a0fb581545d7a0e
-      internalID: 684244350
+      spriteID: 4a3a82b8358e72a4cb6fb5fdc7304e72
+      internalID: 1852441543
       vertices: []
       indices: 
       edges: []
@@ -473,10 +485,10 @@ TextureImporter:
       name: Slime_15
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 32
+        x: 192
+        y: 5
+        width: 63
+        height: 33
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -485,8 +497,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9666fdf5f5fa5064ba79a44cf36ce55a
-      internalID: 1053231658
+      spriteID: dab18fd063e5d934c8d99f4c54115572
+      internalID: -718496330
       vertices: []
       indices: 
       edges: []
@@ -495,7 +507,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: d5ba729d2704749438301463109ff944
+    spriteID: 8ee74f55929313546a42b490dd0b897d
     internalID: 0
     vertices: []
     indices: 
@@ -505,24 +517,24 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Slime_0: -7282886668606283007
-      Slime_1: -837708463
-      Slime_10: -450817545
-      Slime_11: 1636102547
-      Slime_12: 605868145
-      Slime_13: -176042965
-      Slime_14: 684244350
-      Slime_15: 1053231658
-      Slime_2: 1436345441
-      Slime_3: 165469440
-      Slime_4: 402896000
-      Slime_5: -1639155798
-      Slime_6: -924668996
-      Slime_7: -1454856982
-      Slime_8: -853758862
-      Slime_9: 873853468
+      Slime_1: 4518187702968751635
+      Slime_10: 8838806020795055057
+      Slime_11: -3032925496964778609
+      Slime_12: -1882073603415319637
+      Slime_13: 1599567777623568899
+      Slime_14: 1852441543
+      Slime_15: -718496330
+      Slime_2: 7526866347251117655
+      Slime_3: 169598284321861141
+      Slime_4: -518775653469539935
+      Slime_5: -1066590377825042928
+      Slime_6: 5262606648162847603
+      Slime_7: -3373964639730116074
+      Slime_8: -707163016819737269
+      Slime_9: 2083464259699928970
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

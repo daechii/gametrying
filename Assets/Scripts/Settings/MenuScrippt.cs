@@ -1,5 +1,7 @@
-using SQLite;
+using System;
 using System.IO;
+using System.Linq;
+using SQLite;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,87 +9,155 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [Header("GameData")]
-    [SerializeField] private User _userData = null;
     [SerializeField] private string _saveFileName = "save_user_data.db";
 
     [Header("UI Panels")]
     public GameObject settingsPanel;
     public GameObject NameSetPanel;
-    public TMP_InputField NameInputField; 
+    public TMP_InputField NameInputField;
+    [SerializeField] private GameObject MessegePanel;
 
     private string _dbPath;
+    private User _userData;
 
     private void Awake()
     {
         _dbPath = Path.Combine(Application.persistentDataPath, _saveFileName);
     }
 
+    /// <summary>Продолжить: загрузить сохранение и войти в игру (или запросить имя, если его нет).</summary>
     public void StartGame()
     {
-        _userData = Load();
+        try
+        {
+            _userData = LoadOrCreateUser();
 
-        if (string.IsNullOrEmpty(_userData.Name))
-        {
-            NameSetPanel.SetActive(true);
-        }
-        else
-        {
+            if (string.IsNullOrEmpty(_userData.Name))
+            {
+                ShowNamePanel();
+                return;
+            }
+
             SceneManager.LoadScene(1);
         }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Не удалось открыть или создать БД: {_dbPath}\n{ex}");
+        }
+    }
 
-        string path = Path.Combine(Application.persistentDataPath, _saveFileName);
-        if (File.Exists(path))
+    /// <summary>Новая игра: окно подтверждения → по «Да» сброс сохранения и ввод имени.</summary>
+    public void NewGame()
+    {
+        if (MessegePanel != null)
+            MessegePanel.SetActive(true);
+
+        MessagePrebafScript.Show(
+            "Are you sure you want to start a new game?",
+            ConfirmNewGame);
+    }
+
+    void ConfirmNewGame()
+    {
+        try
         {
-            Debug.Log("<color=green>���� ���� ������ �� ������: </color>" + path);
+            ResetSaveData();
+            _userData = null;
+
+            if (NameInputField != null)
+                NameInputField.text = string.Empty;
+
+            if (settingsPanel != null)
+                settingsPanel.SetActive(false);
+
+            ShowNamePanel();
         }
-        else
+        catch (Exception ex)
         {
-            Debug.LogError("<color=red>����� ���! ������� ���������� ������ Load().</color>");
+            Debug.LogError($"Не удалось сбросить сохранение: {_dbPath}\n{ex}");
         }
+    }
+
+    void ShowNamePanel()
+    {
+        if (NameSetPanel != null)
+            NameSetPanel.SetActive(true);
+    }
+
+    void ResetSaveData()
+    {
+        if (File.Exists(_dbPath))
+            File.Delete(_dbPath);
     }
 
     public void ConfirmName()
     {
-        if (!string.IsNullOrEmpty(NameInputField.text))
+        if (NameInputField == null || string.IsNullOrWhiteSpace(NameInputField.text))
         {
-            _userData.Name = NameInputField.text;
-            Save(_userData); 
-            SceneManager.LoadScene(1); 
+            Debug.LogWarning("Имя не может быть пустым.");
+            return;
         }
-        else
+
+        try
         {
-            Debug.Log("��� �� ����� ���� ������!");
+            if (_userData == null)
+                _userData = LoadOrCreateUser();
+
+            _userData.Name = NameInputField.text.Trim();
+            Save(_userData);
+            SceneManager.LoadScene(1);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Не удалось сохранить имя в БД: {_dbPath}\n{ex}");
         }
     }
 
-
     public void OpenSettings() => settingsPanel.SetActive(true);
     public void CloseSettings() => settingsPanel.SetActive(false);
-    public void ExitGame() => Application.Quit();
 
-
-    private User Load()
+    SQLiteConnection OpenDatabase()
     {
-        using (var dbConnection = new SQLiteConnection(_dbPath))
+        string directory = Path.GetDirectoryName(_dbPath);
+        if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+            Directory.CreateDirectory(directory);
+
+        // ReadWrite | Create — файл создаётся при первом открытии, если его ещё нет.
+        return new SQLiteConnection(_dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+    }
+
+    User LoadOrCreateUser()
+    {
+        using (var db = OpenDatabase())
         {
-            dbConnection.CreateTable<User>();
+            db.CreateTable<User>();
 
-            var user = dbConnection.Table<User>().OrderByDescending(x => x.Id).FirstOrDefault();
+            User user = db.Table<User>().OrderByDescending(x => x.Id).FirstOrDefault();
+            if (user != null)
+                return user;
 
-            if (user == null)
-            {
-                user = new User { Id = 1, Name = "" };
-                dbConnection.Insert(user);
-            }
+            user = new User { Name = string.Empty };
+            db.Insert(user);
+            Debug.Log($"Создана новая БД и запись пользователя: {_dbPath}");
             return user;
         }
     }
 
-    private void Save(User user)
+    void Save(User user)
     {
-        using (var dbConnection = new SQLiteConnection(_dbPath))
+        if (user == null)
+            throw new ArgumentNullException(nameof(user));
+
+        using (var db = OpenDatabase())
         {
-            dbConnection.InsertOrReplace(user);
+            db.CreateTable<User>();
+
+            if (user.Id == 0)
+                db.Insert(user);
+            else
+                db.Update(user);
+
+            Debug.Log($"Сохранено в БД: {_dbPath} (Id={user.Id}, Name={user.Name})");
         }
     }
 }

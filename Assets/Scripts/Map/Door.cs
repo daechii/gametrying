@@ -1,28 +1,31 @@
-using Unity.VisualScripting;
-using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class Door : MonoBehaviour
-
 {
     public Vector2Int direction;
     public Transform exitPoint;
-    private RoomManager roomManager;
-    private void Start()
-    {
-        roomManager = Object.FindFirstObjectByType<RoomManager>();
-        Debug.Log($"Дверь запустилась");
 
+    private RoomManager roomManager;
+    private Room room;
+
+    private void Awake()
+    {
+        room = GetComponentInParent<Room>();
+        roomManager = Object.FindFirstObjectByType<RoomManager>();
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-        {
-            // Нам нужно сказать RoomManager, что пора менять комнату
-            // Передаем направление, в котором идет игрок
-            roomManager.MovePlayerToRoom(direction);
-            Debug.Log($"Триггер сработал");
+        if (!other.CompareTag("Player"))
+            return;
 
-        }
+        if (room == null)
+            room = GetComponentInParent<Room>();
+        if (roomManager == null)
+            roomManager = Object.FindFirstObjectByType<RoomManager>();
+        if (roomManager == null || room == null)
+            return;
+
+        roomManager.TryRequestRoomTransition(room, direction);
     }
 }

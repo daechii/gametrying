@@ -7,31 +7,80 @@ public class EnemySpawnPoint : MonoBehaviour
     [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private Transform[] spawnPoints;
 
-    [Header("Door Visuals to Lock")]
-    [SerializeField] private GameObject[] lockVisuals;
-
     private List<GameObject> spawnedEnemies = new List<GameObject>();
     private bool isCleared = false;
     private bool isActive = false;
 
+    public bool AreExitsBlocked => isActive && !isCleared;
+
     public void StartBattle()
     {
         if (isCleared || isActive) return;
+
+        GameObject[] validPrefabs = GetValidPrefabs();
+        if (validPrefabs.Length == 0)
+        {
+            Debug.LogWarning("EnemySpawnPoint: РјР°СЃСЃРёРІ enemyPrefabs РїСѓСЃС‚ РёР»Рё РІСЃРµ СЃР»РѕС‚С‹ null вЂ” Р±РѕР№ РїСЂРѕРїСѓС‰РµРЅ.");
+            isCleared = true;
+            return;
+        }
+
         isActive = true;
 
-        foreach (var point in spawnPoints)
+        int spawned = 0;
+        if (spawnPoints != null)
         {
-            var enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], point.position, Quaternion.identity);
-            enemy.transform.parent = transform;
-            spawnedEnemies.Add(enemy);
+            foreach (var point in spawnPoints)
+            {
+                if (point == null)
+                    continue;
+
+                GameObject prefab = validPrefabs[Random.Range(0, validPrefabs.Length)];
+                GameObject enemy = Instantiate(prefab, point.position, Quaternion.identity);
+                enemy.transform.SetParent(transform, worldPositionStays: true);
+                spawnedEnemies.Add(enemy);
+                spawned++;
+            }
         }
 
-        if (spawnedEnemies.Count > 0)
+        if (spawned > 0)
         {
-            ToggleDoors(true);
-            Debug.Log("Попытка изменить состояние дверей: " + true);
+            Room room = GetRoomForDoors();
+            if (room != null)
+                room.SetExitsLocked(true);
         }
-        else isCleared = true;
+        else
+        {
+            isCleared = true;
+            isActive = false;
+            Debug.LogWarning("EnemySpawnPoint: РЅРµС‚ С‚РѕС‡РµРє СЃРїР°РІРЅР° (spawnPoints) вЂ” РґРІРµСЂРё РЅРµ Р±Р»РѕРєРёСЂСѓСЋС‚СЃСЏ.");
+        }
+    }
+
+    GameObject[] GetValidPrefabs()
+    {
+        if (enemyPrefabs == null || enemyPrefabs.Length == 0)
+            return System.Array.Empty<GameObject>();
+
+        int n = 0;
+        for (int i = 0; i < enemyPrefabs.Length; i++)
+        {
+            if (enemyPrefabs[i] != null)
+                n++;
+        }
+
+        if (n == 0)
+            return System.Array.Empty<GameObject>();
+
+        var list = new GameObject[n];
+        int w = 0;
+        for (int i = 0; i < enemyPrefabs.Length; i++)
+        {
+            if (enemyPrefabs[i] != null)
+                list[w++] = enemyPrefabs[i];
+        }
+
+        return list;
     }
 
     private void Update()
@@ -42,21 +91,17 @@ public class EnemySpawnPoint : MonoBehaviour
 
         if (spawnedEnemies.Count == 0)
         {
-
             isCleared = true;
-            ToggleDoors(false);
-            Debug.Log("Комната зачищена!");
+            Room room = GetRoomForDoors();
+            if (room != null)
+                room.SetExitsLocked(false);
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!");
         }
     }
 
-    private void ToggleDoors(bool lockState)
+    private Room GetRoomForDoors()
     {
-        Debug.Log("Попытка изменить состояние дверей: " + lockState);
-        foreach (var door in lockVisuals) 
-        {
-            if (door != null) door.SetActive(lockState);
-            else Debug.LogError("В массиве lockVisuals есть пустая ссылка!");
-        } 
-            
+        Room onSelf = GetComponent<Room>();
+        return onSelf != null ? onSelf : GetComponentInParent<Room>();
     }
 }
